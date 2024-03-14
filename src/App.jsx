@@ -3,20 +3,32 @@ import './App.css'
 import quizData from  "./data/data.json";
 
 function App() {
+
+  const [allQuizData, setallQuizData] = React.useState(quizData);
+
+  const onSelectOption = (op) => {
+    console.log(op);
+  }
   
   return (
     <>
       <div>
         <h4>Quiz Data</h4>
         
-        {quizData.map(q=>(
+        {allQuizData.map(q=>(
 
            <div key={q.id}>
             <p>What is the capital of {q.country}</p>
             <img src={q.flag} alt="flag" width="250" height="250"></img>
               
               <ul>
-                {q.options.map((op) => ( <li key={op}>{op}</li>
+                {q.options.map((op) => ( 
+                <li 
+                key={op}
+                onClick={() => onSelectOption(op) }
+                >
+                {op}
+                </li>
                 ))}
               </ul>
 
