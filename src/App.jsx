@@ -2,20 +2,62 @@ import React, { useState } from 'react'
 import './App.css'
 import quizData from  "./data/data.json";
 
+
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+
+let indexArray = [];
+let newQuestions = [];
+
+let maxNumber = quizData.length;
+
+for (let i = 0; newQuestions.length < 5; i++)
+
+{
+
+  let randomInteger = getRandomInt(0, ( quizData.length - 1 ));
+
+  if (indexArray.includes(randomInteger)) 
+  {
+    
+  }
+  else 
+  {
+    indexArray.push(randomInteger);
+    newQuestions.push(quizData[randomInteger]);
+  }
+
+}
+
+console.log(newQuestions);
+
+
 function App() {
 
-  const [allQuizData, setallQuizData] = React.useState(quizData);
+  const [allQuizData, setallQuizData] = React.useState(newQuestions);
+  const [qIndex, setqIndex] =  React.useState(0);
+  const q = allQuizData[qIndex];
 
-  const onSelectOption = (op) => {
-    console.log(op);
+  const onSelectOption = (qid, op) => {
+    const copyQuestions = [...allQuizData];
+    const question = copyQuestions.find(q => q.id === qid);
+    question.selectedOption = op;
+    setallQuizData(copyQuestions);
+    console.log(allQuizData);
   }
-  
+
+
   return (
     <>
       <div>
         <h4>Quiz Data</h4>
         
-        {allQuizData.map(q=>(
 
            <div key={q.id}>
             <p>What is the capital of {q.country}</p>
@@ -25,31 +67,25 @@ function App() {
                 {q.options.map((op) => ( 
                 <li 
                 key={op}
-                onClick={() => onSelectOption(op) }
+                onClick={() => onSelectOption(q.id, op) }
                 >
                 {op}
                 </li>
                 ))}
               </ul>
 
-
-
            </div> 
+           
 
-        ))}
-
-
-
+           <button onClick={() => setqIndex(qIndex + 1)}>Next</button>
+           
+           
 
       </div>
       
-
-
-
-
-      
     </>
   )
+
 }
 
 export default App
