@@ -38,10 +38,45 @@ for (let i = 0; newQuestions.length < 5; i++)
 console.log(newQuestions);
 
 
+const getOptionStyle = (que, opn) => 
+{
+  let inLineStyles = { backgroundColor: 'white'};
+
+  if(opn === que.selectedOption && opn === que.capital)
+  {
+    inLineStyles = {backgroundColor: 'green'};
+    return inLineStyles;
+  }
+  else if (opn === que.selectedOption && opn != que.capital)
+  {
+    inLineStyles = {backgroundColor: 'red'};
+    return inLineStyles;
+  }
+  else
+  {
+    inLineStyles = { backgroundColor: 'white'};
+  }
+}
+
+let counter = 0;
+const checkVisibility = (setShow) => {
+  counter++;
+
+  if( counter > 3 )
+    {
+      setShow(false);
+    }
+
+  console.log(counter);
+}
+
+
+
 function App() {
 
   const [allQuizData, setallQuizData] = React.useState(newQuestions);
   const [qIndex, setqIndex] =  React.useState(0);
+  const [show, setShow] = React.useState(true);
   const q = allQuizData[qIndex];
 
   const onSelectOption = (qid, op) => {
@@ -50,6 +85,7 @@ function App() {
     question.selectedOption = op;
     setallQuizData(copyQuestions);
     console.log(allQuizData);
+
   }
 
 
@@ -67,7 +103,8 @@ function App() {
                 {q.options.map((op) => ( 
                 <li 
                 key={op}
-                onClick={() => onSelectOption(q.id, op) }
+                style={getOptionStyle(q, op)}
+                onClick={() => onSelectOption(q.id, op)}
                 >
                 {op}
                 </li>
@@ -77,9 +114,15 @@ function App() {
            </div> 
            
 
-           <button onClick={() => setqIndex(qIndex + 1)}>Next</button>
+            {
+      
+            show && <p onClick={() => checkVisibility(setShow)}>
+
+            <button onClick={() => setqIndex(qIndex + 1)}> Next </button> 
            
+            </p>
            
+            }
 
       </div>
       
@@ -89,25 +132,3 @@ function App() {
 }
 
 export default App
-
-
-
-{/* <div className="container my-3">
-//       <h4>Quiz Demo</h4>
-//       {allQuestions.map((q) => (
-//         <div className="card my-2" key={q.id}>
-//           <div className="card-header"> {q.statement} </div>
-//           <ul className="list-group list-group-flush">
-//             {q.options.map((op) => (
-//               <li
-//                 key={op}
-//                 className={getOptionStyle(q, op)}
-//                 onClick={() => onSelectOption(q.id, op)}
-//               >
-//                 {op}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       ))}
-//     </div> */}
