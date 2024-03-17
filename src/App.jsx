@@ -62,6 +62,8 @@ let counter = 0;
 const checkVisibility = (setShow) => {
   counter++;
 
+  {setShow(false)}
+
   if( counter > 3 )
     {
       setShow(false);
@@ -76,7 +78,7 @@ function App() {
 
   const [allQuizData, setallQuizData] = React.useState(newQuestions);
   const [qIndex, setqIndex] =  React.useState(0);
-  const [show, setShow] = React.useState(true);
+  const [show, setShow] = React.useState(false);
   const q = allQuizData[qIndex];
 
   const onSelectOption = (qid, op) => {
@@ -85,6 +87,15 @@ function App() {
     question.selectedOption = op;
     setallQuizData(copyQuestions);
     console.log(allQuizData);
+    
+    if( counter > 3 )
+    {
+      setShow(false);
+    }
+    else
+    {
+      setShow(true);
+    }
 
   }
 
@@ -94,7 +105,6 @@ function App() {
       <div>
         <h4>Quiz Data</h4>
         
-
            <div key={q.id}>
             <p>What is the capital of {q.country}</p>
             <img src={q.flag} alt="flag" width="250" height="250"></img>
